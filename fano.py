@@ -30,11 +30,11 @@ def fano(args):
     l_sum = 0
     r_sum = probs[r]
     for i, e in enumerate(probs):
+        if i >= r:       # middle part, all elements are summed up
+            m = r
+            break
         l_sum += e
-        if (l_sum >= r_sum):
-            if(r - i == 1):       # middle part, all elements are summed up
-                m = r
-                break
+        if l_sum > r_sum and r - i > 1:
             r -= 1
             r_sum += probs[r]
     return m
