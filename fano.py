@@ -23,13 +23,8 @@ def getInputFromFile(fl):
 
 
 def fano(args):
-    '''
-    Another way is to start from the beggining of the reversed list (from biggest value) and compare lesser items
-    '''
     probs = args.copy()
-    # res.sort(reverse=True)
     probs.sort()
-    # print(probs)
     m = 0
     r = len(probs) - 1
     l_sum = 0
@@ -42,19 +37,19 @@ def fano(args):
                 break
             r -= 1
             r_sum += probs[r]
-
-    return [(probs[:m], l_sum), (probs[m:], r_sum)]
+    return m
 
 
 if __name__ == '__main__':
     import sys
-    # vals = sys.argv.pop() if len(sys.argv) > 1 else ''
     if(len(sys.argv) > 1):
         vals = getInputFromFile(sys.argv.pop())
         print('Input: \n', vals)
         entropy = calculate_entropy(vals)
         print('Entropy: \n', entropy)
-        fano_coding = fano(vals)
-        print('fano: \n', fano_coding)
+        vals.sort()
+        index = fano(vals)
+        print('Left part: ', vals[:index], sum(vals[:index]))
+        print('Right part: ', vals[index:], sum(vals[index:]))
     else:
         print('No file is specified.\n\tfano.py FILE_NAME')
