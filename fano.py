@@ -10,16 +10,9 @@ def calculate_entropy(args=[]):
     return -entropy
 
 
-def transform(arg):
-    return float(arg.strip())
-
-
 def getInputFromFile(fl):
-    res = []
     with open(fl) as f:
-        for l in f:
-            res.append(transform(l))
-    return res
+        return [float(l.strip()) for l in f if l.strip()]
 
 
 def fano(args):
