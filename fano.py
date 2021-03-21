@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import math
-import functools
+from binarytree import Node
 
 
 def calculate_entropy(args=[]):
@@ -17,7 +17,7 @@ def getInputFromFile(fl):
 
 def fano(args):
     probs = args.copy()
-    probs.sort()
+    # probs.sort()
     m = 0
     r = len(probs) - 1
     l_sum = 0
@@ -33,6 +33,21 @@ def fano(args):
     return m
 
 
+def build_tree(seq):
+    if not seq:
+        return
+    if len(seq) == 1:
+        return Node(seq[0])
+    seq.sort()
+    parent = Node(sum(seq))
+    i = fano(seq)
+    l = seq[:i]
+    r = seq[i:]
+    parent.left = build_tree(l)
+    parent.right = build_tree(r)
+    return parent
+
+
 if __name__ == '__main__':
     import sys
     if(len(sys.argv) > 1):
@@ -40,9 +55,6 @@ if __name__ == '__main__':
         print('Input: \n', vals)
         entropy = calculate_entropy(vals)
         print('Entropy: \n', entropy)
-        vals.sort()
-        index = fano(vals)
-        print('Left part: ', vals[:index], sum(vals[:index]))
-        print('Right part: ', vals[index:], sum(vals[index:]))
+        print('Fano tree:', build_tree(vals))
     else:
         print('No file is specified.\n\tfano.py FILE_NAME')
